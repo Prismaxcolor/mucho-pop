@@ -1,0 +1,162 @@
+/*
+  Propuesta de valor — grid de 4 diferenciadores. Para que no lea como
+  "4 cards genéricas": tipografía tachado→fuerte en vez de icono+título+
+  párrafo, acento de color distinto por tarjeta, tilt 3D al mouse, y un
+  tubo cromado cruzando en diagonal por detrás del grid.
+*/
+
+.propuesta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--neutral-white);
+}
+
+.propuesta__glow {
+  position: absolute;
+  top: 6%;
+  left: -6%;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  background: var(--mucho-pink);
+  filter: blur(90px);
+  opacity: 0.28;
+  z-index: 0;
+}
+
+.propuesta__floater {
+  position: absolute;
+  top: 38%;
+  left: 55%;
+  width: min(60vw, 34rem);
+  height: 4rem;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    var(--mucho-cyan-light) 25%,
+    rgba(255, 255, 255, 0.9) 45%,
+    var(--mucho-violet) 70%,
+    var(--mucho-pink) 100%
+  );
+  opacity: 0.6;
+  box-shadow: 0 0 3rem rgba(103, 54, 186, 0.35);
+  z-index: 0;
+}
+
+.propuesta__content {
+  position: relative;
+  z-index: 1;
+}
+
+.propuesta__intro {
+  max-width: 40rem;
+  margin-bottom: var(--space-2xl);
+}
+
+.propuesta__title {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-extrabold);
+  color: var(--neutral-ink);
+  margin-bottom: var(--space-md);
+}
+
+.propuesta__lead {
+  font-size: var(--text-lead);
+  color: var(--mucho-purple-deep);
+  line-height: var(--leading-relaxed);
+}
+
+.propuesta__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  perspective: 1400px;
+}
+
+.propuesta__card {
+  position: relative;
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--glass-fill-light);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-soft);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.propuesta__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--space-md);
+  right: var(--space-md);
+  height: 3px;
+  background: var(--accent, var(--mucho-purple));
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 0.75rem var(--accent, var(--mucho-purple));
+}
+
+.propuesta__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.6rem;
+  border-radius: 50%;
+  color: var(--accent, var(--mucho-purple));
+  background: color-mix(in srgb, var(--accent, var(--mucho-purple)) 14%, transparent);
+  margin-bottom: var(--space-md);
+}
+
+.propuesta__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2;
+}
+
+.propuesta__card-no {
+  font-size: var(--text-small);
+  color: var(--neutral-grey);
+  text-decoration: line-through;
+  text-decoration-color: var(--accent, var(--mucho-purple));
+  margin-bottom: var(--space-2xs);
+}
+
+.propuesta__card-yes {
+  font-size: var(--text-h3);
+  font-weight: var(--fw-bold);
+  color: var(--neutral-ink);
+  line-height: var(--leading-snug);
+}
+
+.propuesta__closing {
+  max-width: 34rem;
+  margin: var(--space-2xl) auto 0;
+  text-align: center;
+  font-size: var(--text-lead);
+  font-weight: var(--fw-medium);
+  color: var(--mucho-purple-deep);
+  line-height: var(--leading-relaxed);
+}
+
+@media (max-width: 1000px) {
+  .propuesta__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .propuesta__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .propuesta__floater {
+    width: 80vw;
+  }
+}

@@ -1,0 +1,166 @@
+/*
+  CTA final — cierre de alto impacto. Fondo gradiente Pop (el mismo que el
+  glow interior del vessel del Hero), esferas cromadas como remate visual
+  que rima con las que caen de la caja al inicio del sitio.
+*/
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--gradient-pop);
+  padding-block: calc(var(--space-section) * 1.1);
+  text-align: center;
+}
+
+/*
+  Burbujas efervescentes — estilo soda pop (feedback explícito del
+  cliente): transparentes, chicas, muchas, subiendo despacio. Tamaño,
+  posición, recorrido y timing quedan al azar por burbuja (ver cta.js)
+  para que la nube se vea orgánica y no como un loop repetido.
+*/
+.cta__bubbles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.cta__bubble {
+  position: absolute;
+  width: var(--size, 6px);
+  height: var(--size, 6px);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 0 0.15rem rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  animation: cta-bubble-rise var(--duration, 7s) var(--delay, 0s) linear infinite;
+}
+
+@keyframes cta-bubble-rise {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--peak, 0.4);
+  }
+  85% {
+    opacity: var(--peak, 0.4);
+  }
+  100% {
+    transform: translate(var(--drift, 10px), var(--rise, -400px));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta__bubbles {
+    display: none;
+  }
+}
+
+.cta__spheres {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cta__sphere {
+  position: absolute;
+  width: var(--size, 40px);
+  height: var(--size, 40px);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 1rem 2.5rem rgba(20, 6, 32, 0.3);
+  animation: cta-float 7s var(--delay, 0s) ease-in-out infinite;
+}
+
+.cta__sphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.95), transparent 45%);
+}
+
+.cta__sphere--pink {
+  background: radial-gradient(circle at 35% 30%, #f7c3e2, var(--mucho-pink) 60%, #9c2f74 100%);
+}
+
+.cta__sphere--pink-light {
+  background: radial-gradient(circle at 35% 30%, #fce3f0, var(--mucho-pink-light) 60%, var(--mucho-pink) 100%);
+}
+
+.cta__sphere--cyan {
+  background: radial-gradient(circle at 35% 30%, #bdeaf3, var(--mucho-cyan) 60%, #217687 100%);
+}
+
+.cta__sphere--sky {
+  background: radial-gradient(circle at 35% 30%, #ffffff, var(--mucho-sky) 60%, var(--mucho-cyan-light) 100%);
+}
+
+.cta__sphere--violet {
+  background: radial-gradient(circle at 35% 30%, #cbb6ef, var(--mucho-violet) 60%, var(--mucho-purple) 100%);
+}
+
+@keyframes cta-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.25rem);
+  }
+}
+
+.cta__content {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta__title {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-extrabold);
+  color: var(--neutral-white);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-lg);
+}
+
+.cta__text {
+  font-size: var(--text-lead);
+  color: rgba(255, 255, 255, 0.88);
+  line-height: var(--leading-relaxed);
+  max-width: 34rem;
+}
+
+.cta__text--emphasis {
+  font-weight: var(--fw-semibold);
+  color: var(--neutral-white);
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.btn--cta {
+  padding: var(--space-md) var(--space-2xl);
+  background: var(--neutral-white);
+  color: var(--mucho-purple);
+  font-size: var(--text-lead);
+  font-weight: var(--fw-bold);
+  box-shadow: 0 1.5rem 3rem rgba(20, 6, 32, 0.35);
+}
+
+.btn--cta:hover {
+  box-shadow: 0 1.5rem 4rem rgba(20, 6, 32, 0.5);
+}
+
+.cta__subtext {
+  margin-top: var(--space-md);
+  font-size: var(--text-small);
+  color: rgba(255, 255, 255, 0.7);
+}

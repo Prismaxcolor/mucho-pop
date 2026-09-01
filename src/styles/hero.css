@@ -1,0 +1,398 @@
+/*
+  Hero — composición asimétrica (60% negativo / 25% objeto 3D / 15% contenido).
+  Mobile-first: en mobile todo vive en flujo normal y apilado; a partir de
+  861px el stage se vuelve una composición absoluta en capas cruzadas.
+*/
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-top: 6rem;
+  background: linear-gradient(180deg, var(--neutral-fog) 0%, var(--neutral-white) 55%, var(--neutral-mist) 100%);
+}
+
+/* ---------------------------------------------------------------- */
+/* Atmósfera — luz de estudio, no "blobs" decorativos sueltos:       */
+/* simulan el resplandor que emite el propio vessel de vidrio.       */
+/* ---------------------------------------------------------------- */
+.hero__atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.35;
+}
+
+.hero__glow--cyan {
+  width: 20rem;
+  height: 20rem;
+  background: var(--mucho-cyan);
+  top: 8%;
+  left: -8%;
+}
+
+.hero__glow--pink {
+  width: 18rem;
+  height: 18rem;
+  background: var(--mucho-pink);
+  bottom: 4%;
+  right: -6%;
+}
+
+/* ---------------------------------------------------------------- */
+/* Contenido                                                          */
+/* ---------------------------------------------------------------- */
+.hero__content {
+  position: relative;
+  z-index: 5;
+  max-width: 34rem;
+  padding-inline: var(--container-padding);
+  padding-block: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/*
+  Logo de apertura — lo primero que se ve en la página. Trazo siempre
+  visible (borde negro), relleno transparente que se anima a color al
+  cargar (ver initIntroLogo en hero.js). Inspirado en meminteriores.com.
+*/
+.hero__intro-logo {
+  width: min(70vw, 21rem);
+  height: auto;
+  margin-bottom: var(--space-md);
+  overflow: visible;
+}
+
+.hero__intro-logo-text {
+  font-family: var(--font-sora);
+  font-weight: var(--fw-extrabold);
+  font-size: 3.75rem;
+  stroke: var(--neutral-ink);
+  stroke-width: 1.25;
+  paint-order: stroke fill;
+  fill-opacity: 0;
+}
+
+.hero__intro-logo-text--mucho {
+  fill: var(--mucho-purple);
+}
+
+.hero__intro-logo-text--pop {
+  stroke: var(--mucho-purple);
+}
+
+.hero__kicker {
+  align-self: flex-start;
+}
+
+.hero__headline {
+  font-size: var(--text-display);
+  font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hero__headline-accent {
+  /* OJO: el shorthand `background` resetea background-clip a su valor
+     inicial si se declara en una regla distinta con la misma especificidad.
+     Por eso el degradado entra por background-image, no por `background`. */
+  background-image: var(--accent-gradient, var(--gradient-signature));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero__headline-accent--signature {
+  --accent-gradient: var(--gradient-signature);
+}
+
+.hero__headline-accent--creative {
+  --accent-gradient: var(--gradient-creative);
+}
+
+.hero__subheadline {
+  font-size: var(--text-lead);
+  font-weight: var(--fw-regular);
+  color: var(--mucho-purple-deep);
+  max-width: 30rem;
+  line-height: var(--leading-relaxed);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+/* ---------------------------------------------------------------- */
+/* Scene — envoltorio posicionado que comparten el pedestal/vessel    */
+/* y las dos capas de esferas, para que sus % de posición coincidan   */
+/* con el mismo punto de origen sin importar la altura del texto.     */
+/* z-index queda "auto" a propósito: así sus hijos se comparan        */
+/* directamente contra .hero__content (z-index 5) y logramos el       */
+/* cruce de capas (esferas detrás Y delante del contenido).           */
+/* ---------------------------------------------------------------- */
+.hero__scene {
+  position: relative;
+  height: min(58vh, 30rem);
+}
+
+.hero__stage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1600px;
+}
+
+.hero__pedestal {
+  /* Centrado con margin (no transform): el parallax de GSAP anima yPercent
+     sobre este mismo elemento y no debe pelear con un translateX propio. */
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: min(78vw, 30rem);
+  margin-left: calc(min(78vw, 30rem) / -2);
+  height: 3.25rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 32% 30%,
+    rgba(255, 255, 255, 0.95) 0%,
+    var(--mucho-cyan-light) 18%,
+    var(--mucho-violet) 55%,
+    var(--mucho-pink) 85%
+  );
+  filter: blur(1px);
+  opacity: 0.9;
+  box-shadow: 0 2rem 4rem rgba(53, 24, 70, 0.4);
+}
+
+.hero__pedestal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 40% 25%, rgba(255, 255, 255, 0.9), transparent 55%);
+}
+
+/* Vástago cromado: conecta visualmente el vessel con el disco para que se
+   lea como "caja sobre un pedestal" y no como dos objetos sueltos. */
+.hero__pedestal-stem {
+  position: absolute;
+  bottom: 92%;
+  left: 50%;
+  width: 1.25rem;
+  height: 3rem;
+  transform: translateX(-50%);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    var(--mucho-cyan-light) 30%,
+    var(--mucho-violet) 70%,
+    var(--mucho-pink) 100%
+  );
+  opacity: 0.75;
+}
+
+.hero__vessel {
+  position: relative;
+  /* clamp con vh incluido: en ventanas reales (con barra de marcadores,
+     etc.) la altura disponible es menor que en un viewport de prueba a
+     pantalla completa, así que el tamaño cede antes de desbordar. */
+  width: clamp(13rem, min(30vw, 46vh), 24rem);
+  aspect-ratio: 1 / 1;
+  transform-style: preserve-3d;
+  margin-bottom: 4rem;
+}
+
+.hero__vessel-body {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.6) 0%, rgba(200, 181, 219, 0.28) 55%, rgba(78, 36, 100, 0.22) 100%);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-lifted), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.hero__vessel-sheen {
+  position: absolute;
+  top: -20%;
+  left: -30%;
+  width: 55%;
+  height: 140%;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.65), transparent 60%);
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+.hero__vessel-glow {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: var(--gradient-pop);
+  filter: blur(26px);
+  opacity: 0;
+}
+
+.hero__vessel-lid {
+  position: absolute;
+  top: -8%;
+  left: -4%;
+  right: -4%;
+  height: 32%;
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-sm) var(--radius-sm);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.85) 0%, rgba(168, 223, 235, 0.4) 100%);
+  border: 1px solid var(--glass-border-light);
+  border-bottom: 2px solid rgba(207, 72, 154, 0.4);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  box-shadow: 0 -0.5rem 1.5rem rgba(78, 36, 100, 0.15);
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------- */
+/* Esferas — plastic satinado en colores de marca (primarios +       */
+/* secundarios, no solo morado)                                      */
+/* ---------------------------------------------------------------- */
+.hero__spheres {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero__spheres--back {
+  z-index: 1;
+}
+
+.hero__spheres--front {
+  z-index: 6;
+}
+
+.hero__sphere {
+  position: absolute;
+  width: var(--sphere-size, 32px);
+  height: var(--sphere-size, 32px);
+  border-radius: 50%;
+  opacity: 0;
+  will-change: left, top, transform, opacity;
+  box-shadow: 0 0.75rem 1.5rem rgba(53, 24, 70, 0.25);
+}
+
+.hero__sphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.95), transparent 45%);
+}
+
+.hero__sphere--purple {
+  background: radial-gradient(circle at 35% 30%, #a985c2, var(--mucho-purple) 60%, var(--mucho-purple-deep) 100%);
+}
+
+.hero__sphere--violet {
+  background: radial-gradient(circle at 35% 30%, #cbb6ef, var(--mucho-violet) 60%, var(--mucho-purple) 100%);
+}
+
+.hero__sphere--cyan {
+  background: radial-gradient(circle at 35% 30%, #bdeaf3, var(--mucho-cyan) 60%, #217687 100%);
+}
+
+.hero__sphere--cyan-light {
+  background: radial-gradient(circle at 35% 30%, #eafbff, var(--mucho-cyan-light) 60%, var(--mucho-cyan) 100%);
+}
+
+.hero__sphere--pink {
+  background: radial-gradient(circle at 35% 30%, #f7c3e2, var(--mucho-pink) 60%, #9c2f74 100%);
+}
+
+.hero__sphere--pink-light {
+  background: radial-gradient(circle at 35% 30%, #fce3f0, var(--mucho-pink-light) 60%, var(--mucho-pink) 100%);
+}
+
+.hero__sphere--sky {
+  background: radial-gradient(circle at 35% 30%, #ffffff, var(--mucho-sky) 60%, var(--mucho-cyan-light) 100%);
+}
+
+/* ---------------------------------------------------------------- */
+/* Scroll cue                                                         */
+/* ---------------------------------------------------------------- */
+.hero__scroll-cue {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  width: fit-content;
+  margin: 0 auto var(--space-xl);
+  font-size: var(--text-micro);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--mucho-purple);
+  opacity: 0.6;
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 2.5rem;
+  background: linear-gradient(180deg, var(--mucho-pink), transparent);
+}
+
+/* ---------------------------------------------------------------- */
+/* Desktop — composición en capas cruzadas absolutas                 */
+/* ---------------------------------------------------------------- */
+@media (min-width: 861px) {
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding-top: 0;
+  }
+
+  .hero__content {
+    align-self: center;
+    padding-top: clamp(6rem, 16vh, 10rem);
+    padding-bottom: 0;
+  }
+
+  .hero__scene {
+    /* Caja acotada (no inset:0 del hero completo) para que el pedestal
+       ("bottom: 12%") y el origen de las esferas sigan midiéndose contra
+       el mismo marco que envuelve al vessel, sin importar cuánto texto
+       tenga el headline ni la altura total de la sección. */
+    position: absolute;
+    top: 50%;
+    right: 4vw;
+    width: min(50vw, 38rem);
+    height: min(64vh, 34rem);
+    transform: translateY(-50%);
+  }
+
+  .hero__scroll-cue {
+    margin-bottom: var(--space-2xl);
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero__content {
+    max-width: 38rem;
+  }
+}

@@ -1,0 +1,95 @@
+/*
+  Clientes — marquee infinito en CSS puro. Es la única sección del sitio
+  cuyo movimiento NO está atado al scroll (brief 5.7: "loop continuo con
+  pausa al hover"), a propósito, como contraste de ritmo.
+*/
+
+.clientes {
+  padding-block: var(--space-xl);
+  background: var(--neutral-mist);
+  border-block: 1px solid var(--glass-border-light);
+  overflow: hidden;
+}
+
+.clientes__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.clientes__label-tick {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--mucho-pink) 0, var(--mucho-pink) 6px, transparent 6px, transparent 14px);
+  opacity: 0.5;
+}
+
+.clientes__label {
+  flex-shrink: 0;
+  font-size: var(--text-micro);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--mucho-purple);
+}
+
+.clientes__marquee {
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.clientes__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: var(--space-2xl);
+  animation: clientes-marquee 32s linear infinite;
+}
+
+.clientes__marquee:hover .clientes__track {
+  animation-play-state: paused;
+}
+
+.clientes__item {
+  flex: 0 0 auto;
+}
+
+.clientes__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 9rem;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-small);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--mucho-purple-deep);
+  filter: grayscale(0.85);
+  opacity: 0.65;
+  border: 1px solid rgba(78, 36, 100, 0.18);
+  border-radius: var(--radius-pill);
+  transition: color var(--duration-base) var(--ease-signature),
+    filter var(--duration-base) var(--ease-signature),
+    opacity var(--duration-base) var(--ease-signature),
+    border-color var(--duration-base) var(--ease-signature);
+}
+
+.clientes__logo:hover {
+  color: var(--mucho-purple);
+  filter: grayscale(0);
+  opacity: 1;
+  border-color: var(--mucho-pink);
+}
+
+@keyframes clientes-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,73 @@
+/*
+  Componentes atómicos compartidos entre secciones (botones, chips...).
+  Vive aparte de base.css para que en WordPress sea un archivo de
+  "componentes" reutilizable, independiente del reset.
+*/
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-small);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-normal);
+  white-space: nowrap;
+  transition: transform var(--duration-fast) var(--ease-magnetic),
+    box-shadow var(--duration-fast) var(--ease-signature),
+    background var(--duration-fast) var(--ease-signature),
+    border-color var(--duration-fast) var(--ease-signature);
+  will-change: transform;
+}
+
+.btn--primary {
+  background: var(--gradient-signature);
+  color: var(--neutral-white);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn--primary:hover {
+  box-shadow: var(--shadow-lifted), var(--shadow-glow-pink);
+}
+
+.btn--secondary {
+  background: var(--glass-fill-light);
+  border: 1px solid rgba(78, 36, 100, 0.22);
+  color: var(--mucho-purple);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+}
+
+.btn--secondary:hover {
+  border-color: var(--mucho-cyan);
+  color: var(--mucho-purple-deep);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill-light);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  font-size: var(--text-micro);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--mucho-purple-deep);
+}
+
+.chip-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--mucho-pink);
+  flex-shrink: 0;
+}

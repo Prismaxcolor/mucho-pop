@@ -1,0 +1,126 @@
+/*
+  El problema — columna editorial angosta y centrada, contraste deliberado
+  con el hero (ancho, asimétrico, 3D). Fondo con textura glass sutil +
+  una capa de glow a distinta velocidad = parallax multicapa (brief 4.1)
+  incluso en una sección mayormente tipográfica.
+*/
+
+.problema {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(180deg, var(--neutral-mist) 0%, var(--neutral-fog) 100%);
+}
+
+.problema__glow {
+  position: absolute;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.problema__glow--a {
+  top: 12%;
+  right: 8%;
+  background: var(--mucho-cyan);
+  opacity: 0.32;
+}
+
+.problema__glow--b {
+  bottom: 6%;
+  left: 4%;
+  background: var(--mucho-pink);
+  opacity: 0.26;
+}
+
+.problema__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.problema__line {
+  /* Cada línea vive dentro de su propia caja de vidrio, ajustada a su
+     contenido (no un panel compartido de altura fija que el texto podía
+     desbordar). */
+  font-size: var(--text-h2);
+  font-weight: var(--fw-medium);
+  color: var(--mucho-purple-deep);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  will-change: transform, opacity;
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: var(--glass-fill-light);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--duration-base) var(--ease-signature),
+    box-shadow var(--duration-base) var(--ease-signature),
+    border-color var(--duration-base) var(--ease-signature);
+}
+
+.problema__line:hover {
+  transform: translateY(-0.3rem);
+  border-color: rgba(207, 72, 154, 0.35);
+  box-shadow: var(--shadow-lifted), var(--shadow-glow-pink);
+}
+
+.problema__line--beats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 0.6em;
+  font-weight: var(--fw-bold);
+}
+
+.problema__beat {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.problema__beat--purple {
+  color: var(--mucho-purple);
+}
+
+.problema__beat--cyan {
+  color: var(--mucho-cyan);
+}
+
+.problema__beat--pink {
+  color: var(--mucho-pink);
+}
+
+.problema__closing {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-md);
+  will-change: transform, opacity;
+}
+
+.problema__closing-card {
+  padding: var(--space-lg) var(--space-xl);
+  text-align: center;
+  box-shadow: var(--shadow-lifted);
+}
+
+.problema__closing-text {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  background-image: var(--gradient-signature);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: 640px) {
+  .problema__closing-card {
+    padding: var(--space-md) var(--space-lg);
+  }
+}

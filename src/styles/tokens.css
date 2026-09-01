@@ -1,0 +1,154 @@
+/*
+  Design tokens — Mucho POP
+  Fuente: BRIEF_MUCHO_POP.md secciones 3 y 7.
+  Todo valor de marca (color, gradiente, tipografía) vive aquí como custom
+  property para poder migrarlo tal cual a un theme.json / stylesheet de
+  WordPress sin tocar el resto del código.
+*/
+
+:root {
+  /* ---------------------------------------------------------------- */
+  /* Color — primarios de marca (50% morado / 30% cian / 20% rosa)    */
+  /* ---------------------------------------------------------------- */
+  --mucho-purple: #4e2464;
+  --mucho-cyan: #32a6be;
+  --mucho-pink: #cf489a;
+
+  /* Color — secundarios */
+  --mucho-purple-deep: #351846;
+  --mucho-violet: #6736ba;
+  --mucho-lilac: #c8b5db;
+  --mucho-cyan-light: #74c9db;
+  --mucho-sky: #a8dfeb;
+  --mucho-pink-light: #e98bc4;
+
+  /* Color — neutros */
+  --neutral-white: #ffffff;
+  --neutral-fog: #f8f7fa;
+  --neutral-mist: #eceaf1;
+  --neutral-grey: #bdb7c7;
+  --neutral-ink: #1a1a1a;
+
+  /* ---------------------------------------------------------------- */
+  /* Gradientes con nombre — usar tal cual, no inventar variantes     */
+  /* ---------------------------------------------------------------- */
+  --gradient-signature: linear-gradient(135deg, var(--mucho-purple) 0%, var(--mucho-pink) 100%);
+  --gradient-creative: linear-gradient(135deg, var(--mucho-cyan) 0%, var(--mucho-pink) 100%);
+  --gradient-premium: linear-gradient(135deg, var(--mucho-purple-deep) 0%, var(--mucho-violet) 100%);
+  --gradient-neon: linear-gradient(135deg, var(--mucho-cyan) 0%, var(--mucho-cyan-light) 100%);
+  --gradient-pop: linear-gradient(
+    135deg,
+    var(--mucho-cyan) 0%,
+    var(--mucho-purple) 55%,
+    var(--mucho-pink) 100%
+  );
+
+  /* ---------------------------------------------------------------- */
+  /* Materiales — glass / chrome / plastic (ver brief 3, "Materiales")*/
+  /* ---------------------------------------------------------------- */
+  --glass-purple: rgba(78, 36, 100, 0.18);
+  --glass-cyan: rgba(50, 166, 190, 0.14);
+  --glass-pink: rgba(207, 72, 154, 0.12);
+  --glass-fill-light: rgba(255, 255, 255, 0.55);
+  --glass-fill-dark: rgba(26, 12, 34, 0.35);
+  --glass-border-light: rgba(255, 255, 255, 0.45);
+  --glass-border-dark: rgba(255, 255, 255, 0.12);
+  --glass-blur: 20px;
+  --glass-blur-sm: 10px;
+
+  /* ---------------------------------------------------------------- */
+  /* Tipografía — Sora                                                 */
+  /* ---------------------------------------------------------------- */
+  --font-sora: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* Escala fluida: se ajusta entre mobile (375px) y desktop (1440px) */
+  --text-display: clamp(2.75rem, 1.5rem + 5.5vw, 6.5rem);
+  --text-h1: clamp(2.25rem, 1.4rem + 3.8vw, 4.5rem);
+  --text-h2: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  --text-h3: clamp(1.375rem, 1.1rem + 1.2vw, 1.875rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  --text-body: clamp(1rem, 0.94rem + 0.2vw, 1.125rem);
+  --text-small: clamp(0.8125rem, 0.78rem + 0.1vw, 0.9375rem);
+  --text-micro: 0.75rem;
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-widest: 0.12em;
+
+  /* ---------------------------------------------------------------- */
+  /* Espaciado — escala base 4px                                       */
+  /* ---------------------------------------------------------------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
+  --space-section: clamp(3.25rem, 2.5rem + 2.5vw, 6rem);
+
+  --container-max: 90rem;
+  --container-padding: clamp(1.25rem, 1rem + 2vw, 4rem);
+  --container-narrow: 46rem;
+  --rail-width: 2.25rem;
+
+  /* ---------------------------------------------------------------- */
+  /* Radios y bordes                                                   */
+  /* ---------------------------------------------------------------- */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2.5rem;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------- */
+  /* Sombras — iluminación de estudio, suave, sin dureza                */
+  /* ---------------------------------------------------------------- */
+  --shadow-soft: 0 1rem 3rem rgba(78, 36, 100, 0.12);
+  --shadow-lifted: 0 2rem 5rem rgba(53, 24, 70, 0.18);
+  --shadow-glow-cyan: 0 0 4rem rgba(50, 166, 190, 0.25);
+  --shadow-glow-pink: 0 0 4rem rgba(207, 72, 154, 0.25);
+
+  /* ---------------------------------------------------------------- */
+  /* Movimiento — cada sección define su propia firma sobre esta base  */
+  /* ---------------------------------------------------------------- */
+  --ease-signature: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out, "lento con flotación" */
+  --ease-soft-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-magnetic: cubic-bezier(0.33, 1, 0.68, 1);
+
+  --duration-fast: 0.3s;
+  --duration-base: 0.6s;
+  --duration-slow: 1.2s;
+  --duration-ambient: 6s;
+
+  /* ---------------------------------------------------------------- */
+  /* Capas                                                              */
+  /* ---------------------------------------------------------------- */
+  --z-behind: -1;
+  --z-base: 1;
+  --z-layer: 10;
+  --z-header: 100;
+  --z-menu: 200;
+  --z-cursor: 300;
+}
+
+/*
+  Guía de composición de marca (brief 3.4): 60% espacio negativo,
+  25% objetos 3D, 15% contenido. No es un token de CSS, es un recordatorio
+  para quien maquete cada sección nueva.
+*/

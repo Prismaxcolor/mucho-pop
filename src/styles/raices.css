@@ -1,0 +1,170 @@
+/*
+  Nuestras raíces — la sección respira. A propósito, el reveal más simple
+  de todo el sitio (fade + rise, sin escala/rotación) y el más lento.
+  Columna angosta y centrada, tono editorial, la taza como único elemento
+  visual (glass/chrome) con vapor dibujado vía live-draw SVG.
+*/
+
+.raices {
+  position: relative;
+  overflow: hidden;
+  background: var(--neutral-white);
+}
+
+.raices__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/*
+  Stage — envoltorio cuadrado que aloja la taza, los anillos concéntricos
+  (inspirados en topology.vc: ondas que laten despacio), las partículas de
+  vidrio flotando alrededor y el brillo que sigue al cursor.
+*/
+.raices__stage {
+  position: relative;
+  width: 16rem;
+  height: 16rem;
+  margin: 0 auto var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.raices__ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9rem;
+  height: 9rem;
+  margin: -4.5rem 0 0 -4.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--ripple-color, var(--mucho-cyan-light));
+  box-shadow: 0 0 1rem var(--ripple-color, var(--mucho-cyan-light));
+  opacity: 0;
+  animation: raices-ripple 6s ease-out infinite;
+}
+
+.raices__ripple:nth-child(2) {
+  --ripple-color: var(--mucho-violet);
+  animation-delay: 2s;
+}
+
+.raices__ripple:nth-child(3) {
+  --ripple-color: var(--mucho-pink-light);
+  animation-delay: 4s;
+}
+
+@keyframes raices-ripple {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .raices__ripple {
+    display: none;
+  }
+}
+
+.raices__cursor-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10rem;
+  height: 10rem;
+  margin: -5rem 0 0 -5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(207, 72, 154, 0.35), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(4px);
+}
+
+.raices__speck {
+  position: absolute;
+  width: var(--size, 10px);
+  height: var(--size, 10px);
+  border-radius: 50%;
+  animation: raices-speck-float 5s var(--delay, 0s) ease-in-out infinite;
+  box-shadow: 0 0.4rem 0.8rem rgba(53, 24, 70, 0.2);
+}
+
+.raices__speck--cyan {
+  background: radial-gradient(circle at 35% 30%, #eafbff, var(--mucho-cyan-light) 70%);
+}
+
+.raices__speck--pink {
+  background: radial-gradient(circle at 35% 30%, #fce3f0, var(--mucho-pink) 70%);
+}
+
+.raices__speck--violet {
+  background: radial-gradient(circle at 35% 30%, #cbb6ef, var(--mucho-violet) 70%);
+}
+
+.raices__speck--sky {
+  background: radial-gradient(circle at 35% 30%, #ffffff, var(--mucho-sky) 70%);
+}
+
+.raices__speck--pink-light {
+  background: radial-gradient(circle at 35% 30%, #fde8f4, var(--mucho-pink-light) 70%);
+}
+
+@keyframes raices-speck-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.9rem);
+  }
+}
+
+.raices__cup {
+  position: relative;
+  z-index: 1;
+  width: 12rem;
+}
+
+.raices__mug-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 1.5rem 2rem rgba(78, 36, 100, 0.25));
+}
+
+.raices__title {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-extrabold);
+  color: var(--neutral-ink);
+  margin-bottom: var(--space-xl);
+}
+
+.raices__paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.raices__line {
+  font-size: var(--text-lead);
+  font-weight: var(--fw-regular);
+  color: var(--mucho-purple-deep);
+  line-height: var(--leading-relaxed);
+}
+
+.raices__closing {
+  font-weight: var(--fw-semibold);
+  color: var(--mucho-purple);
+  font-size: var(--text-h3);
+  margin-top: var(--space-md);
+}

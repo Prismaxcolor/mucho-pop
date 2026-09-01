@@ -1,0 +1,177 @@
+/*
+  Servicios — scroll horizontal dentro de un contenedor sticky (brief 5.4).
+  Mobile-first: por defecto el track es un carrusel nativo (overflow-x +
+  scroll-snap). El pin vía GSAP solo se activa en desktop CON motion
+  permitido — replicado en CSS con el mismo media query que usa el JS,
+  para que un usuario con prefers-reduced-motion en desktop nunca quede
+  con un track "atascado" (overflow:hidden sin transform que lo mueva).
+*/
+
+.servicios {
+  position: relative;
+  background: var(--gradient-premium);
+  color: var(--neutral-white);
+  padding-block: var(--space-2xl) 0;
+  overflow: hidden;
+}
+
+.servicios__intro {
+  padding-bottom: var(--space-xl);
+}
+
+.servicios__intro .chip {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--neutral-white);
+  margin-bottom: var(--space-md);
+}
+
+.servicios__title {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-bold);
+  max-width: 42rem;
+  line-height: var(--leading-tight);
+}
+
+.servicios__pin {
+  position: relative;
+}
+
+.servicios__track {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-inline: var(--container-padding);
+  padding-block: var(--space-sm) var(--space-2xl);
+}
+
+.servicios__card {
+  position: relative;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  width: min(82vw, 22rem);
+  min-height: 22rem;
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 2rem 4rem rgba(20, 6, 32, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.servicios__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, var(--accent, var(--mucho-violet)), transparent 70%);
+  opacity: 0.85;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.servicios__index {
+  font-size: var(--text-small);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-widest);
+  color: var(--accent, var(--mucho-violet));
+  opacity: 0.9;
+}
+
+.servicios__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  padding: 0.75rem;
+  border-radius: 50%;
+  color: var(--accent, var(--mucho-violet));
+  background: color-mix(in srgb, var(--accent, var(--mucho-violet)) 20%, transparent);
+  box-shadow: 0 0 1.5rem color-mix(in srgb, var(--accent, var(--mucho-violet)) 45%, transparent);
+  margin-block: var(--space-md);
+}
+
+.servicios__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.8;
+}
+
+.servicios__card-title {
+  font-size: var(--text-h3);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-sm);
+}
+
+.servicios__card-text {
+  font-size: var(--text-body);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: var(--leading-relaxed);
+}
+
+.servicios__progress,
+.servicios__hint {
+  display: none;
+}
+
+@media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+  .servicios__pin {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .servicios__track {
+    overflow-x: visible;
+    scroll-snap-type: none;
+    padding-inline: 6vw;
+    will-change: transform;
+  }
+
+  .servicios__card {
+    width: min(34vw, 26rem);
+    min-height: 26rem;
+  }
+
+  .servicios__progress {
+    display: block;
+    position: absolute;
+    left: 6vw;
+    right: 6vw;
+    bottom: var(--space-lg);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-pill);
+  }
+
+  .servicios__progress-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: var(--gradient-neon);
+    border-radius: inherit;
+  }
+
+  .servicios__hint {
+    display: block;
+    position: absolute;
+    right: 6vw;
+    bottom: calc(var(--space-lg) + 1rem);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wide);
+    color: rgba(255, 255, 255, 0.6);
+    transition: opacity var(--duration-base) var(--ease-signature);
+  }
+}

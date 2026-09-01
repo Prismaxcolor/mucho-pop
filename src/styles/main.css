@@ -1,0 +1,20 @@
+/*
+  Aggregator de estilos globales. Cada sección de contenido (hero, problema,
+  servicios...) suma su propio archivo styles/<seccion>.css aquí a medida
+  que se construye, sin tocar los anteriores.
+*/
+
+@import './tokens.css';
+@import './base.css';
+@import './components.css';
+@import './header.css';
+@import './hero.css';
+@import './problema.css';
+@import './propuesta.css';
+@import './servicios.css';
+@import './metodo.css';
+@import './paraQuien.css';
+@import './clientes.css';
+@import './raices.css';
+@import './cta.css';
+@import './footer.css';

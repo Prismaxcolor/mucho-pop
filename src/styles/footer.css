@@ -1,0 +1,145 @@
+/*
+  Footer — estética glass/dark del gradiente Premium (brief 5.10).
+  Chrome de cierre: sin protagonismo de animación.
+*/
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-premium);
+  color: rgba(255, 255, 255, 0.85);
+  padding-top: var(--space-2xl);
+}
+
+/* Wordmark gigante de fondo — profundidad tipográfica, recurso típico de
+   footers de agencias premium; puramente decorativo, no compite con el
+   contenido real (opacidad mínima, detrás de todo). */
+.footer__watermark {
+  position: absolute;
+  left: 50%;
+  bottom: -6vw;
+  transform: translateX(-50%);
+  font-size: 22vw;
+  font-weight: var(--fw-extrabold);
+  line-height: 1;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+.footer__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer__logo {
+  display: inline-flex;
+  font-size: 1.5rem;
+  font-weight: var(--fw-extrabold);
+  color: var(--neutral-white);
+  margin-bottom: var(--space-sm);
+}
+
+.footer__logo-pop {
+  background: var(--gradient-neon);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.footer__tagline {
+  font-size: var(--text-small);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--space-md);
+  max-width: 16rem;
+}
+
+.footer__socials {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  transition: border-color var(--duration-base) var(--ease-signature),
+    color var(--duration-base) var(--ease-signature);
+}
+
+.footer__social svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.footer__social:hover {
+  border-color: var(--mucho-pink-light);
+  color: var(--mucho-pink-light);
+}
+
+.footer__heading {
+  font-size: var(--text-micro);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: var(--space-md);
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer__link {
+  display: block;
+  font-size: var(--text-body);
+  color: rgba(255, 255, 255, 0.85);
+  width: fit-content;
+  transition: color var(--duration-fast) var(--ease-signature);
+}
+
+.footer__link:hover {
+  color: var(--mucho-cyan-light);
+}
+
+.footer__contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__contact .footer__link {
+  margin-bottom: var(--space-sm);
+}
+
+.footer__bottom {
+  position: relative;
+  z-index: 1;
+  padding-block: var(--space-md);
+  font-size: var(--text-micro);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 700px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+}
