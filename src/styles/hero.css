@@ -369,6 +369,7 @@
 
   .hero__content {
     align-self: center;
+    max-width: 38rem;
     padding-top: clamp(6rem, 16vh, 10rem);
     padding-bottom: 0;
   }
@@ -380,9 +381,9 @@
        tenga el headline ni la altura total de la sección. */
     position: absolute;
     top: 50%;
-    right: 4vw;
-    width: min(50vw, 38rem);
-    height: min(64vh, 34rem);
+    right: 3vw;
+    width: min(34vw, 30rem);
+    height: min(58vh, 30rem);
     transform: translateY(-50%);
   }
 
@@ -393,6 +394,20 @@
 
 @media (min-width: 1200px) {
   .hero__content {
-    max-width: 38rem;
+    max-width: 48rem;
+  }
+
+  .hero__scene {
+    width: min(30vw, 28rem);
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero__content {
+    max-width: 56rem;
+  }
+
+  .hero__scene {
+    width: min(28vw, 27rem);
   }
 }

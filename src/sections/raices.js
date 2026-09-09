@@ -36,7 +36,7 @@ export function renderRaices() {
       style="--spotlight-color: var(--mucho-cyan-light)"
       aria-label="Nuestras raíces"
     >
-      <div class="container container--narrow raices__content">
+      <div class="container raices__content">
         <div class="raices__stage" data-stage>
           <span class="raices__ripple" data-ripple aria-hidden="true"></span>
           <span class="raices__ripple" data-ripple aria-hidden="true"></span>
@@ -72,26 +72,28 @@ export function renderRaices() {
           </div>
         </div>
 
-        <h2 class="raices__title">Todo empezó con una taza.</h2>
+        <div class="raices__text">
+          <h2 class="raices__title">Todo empezó con una taza.</h2>
 
-        <div class="raices__paragraphs">
-          <p class="raices__line" data-line>Mucho POP nació antes de ser una agencia.</p>
-          <p class="raices__line" data-line>
-            Nació en un momento casi doméstico: una taza sublimada sin maquinaria, sin estudio, sin
-            recursos. Solo ingenio, creatividad y una fuente de calor improvisada.
-          </p>
-          <p class="raices__line" data-line>
-            Ese momento reveló algo que hoy define todo lo que hacemos: no se necesita tenerlo todo
-            para crear algo con impacto. Solo hace falta visión, criterio y una mente que no se rinda.
-          </p>
-          <p class="raices__line" data-line>
-            El nombre surgió como una sátira al boom de marcas repetitivas y vacías. Un recordatorio de
-            que el mercado puede llenarse de ruido, pero muy pocas propuestas realmente tienen algo que
-            decir.
-          </p>
-          <p class="raices__line raices__closing" data-line>
-            Mucho POP nació como un acto de rebeldía. Y sigue siéndolo.
-          </p>
+          <div class="raices__paragraphs">
+            <p class="raices__line" data-line>Mucho POP nació antes de ser una agencia.</p>
+            <p class="raices__line" data-line>
+              Nació en un momento casi doméstico: una taza sublimada sin maquinaria, sin estudio, sin
+              recursos. Solo ingenio, creatividad y una fuente de calor improvisada.
+            </p>
+            <p class="raices__line" data-line>
+              Ese momento reveló algo que hoy define todo lo que hacemos: no se necesita tenerlo todo
+              para crear algo con impacto. Solo hace falta visión, criterio y una mente que no se rinda.
+            </p>
+            <p class="raices__line" data-line>
+              El nombre surgió como una sátira al boom de marcas repetitivas y vacías. Un recordatorio de
+              que el mercado puede llenarse de ruido, pero muy pocas propuestas realmente tienen algo que
+              decir.
+            </p>
+            <p class="raices__line raices__closing" data-line>
+              Mucho POP nació como un acto de rebeldía. Y sigue siéndolo.
+            </p>
+          </div>
         </div>
       </div>
     </section>

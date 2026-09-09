@@ -21,33 +21,41 @@ export function renderProblema() {
       style="--spotlight-color: var(--mucho-pink)"
       aria-label="El problema"
     >
-      <span class="problema__glow problema__glow--a" aria-hidden="true" data-parallax="0.09"></span>
-      <span class="problema__glow problema__glow--b" aria-hidden="true" data-parallax="0.04"></span>
+      <div class="problema__atmosphere" aria-hidden="true">
+        <span class="problema__glow problema__glow--a" data-parallax="0.09"></span>
+        <span class="problema__glow problema__glow--b" data-parallax="0.04"></span>
+      </div>
 
-      <div class="container container--narrow problema__content">
-        <p class="problema__line" data-line>
-          Muchas empresas invierten en diseño y marketing constantemente. Pero algo no termina de funcionar.
-        </p>
+      <div class="container problema__content">
+        <div class="problema__label">
+          <p class="chip"><span class="chip-dot"></span>El problema</p>
+        </div>
 
-        <p class="problema__line problema__line--beats" data-line data-beats-line>
-          <span class="problema__beat problema__beat--purple">Falta dirección.</span>
-          <span class="problema__beat problema__beat--cyan">Falta coherencia.</span>
-          <span class="problema__beat problema__beat--pink">Falta orden.</span>
-        </p>
-
-        <p class="problema__line" data-line>
-          Campañas desconectadas. Material que se ve bien pero no vende. Múltiples proveedores sin una
-          estrategia que los una.
-        </p>
-
-        <p class="problema__line" data-line>
-          El problema casi nunca es la creatividad. Es la falta de estructura detrás.
-        </p>
-
-        <div class="problema__closing" data-closing>
-          <p class="problema__closing-card glass-panel">
-            <span class="problema__closing-text">Mucho POP existe para resolver exactamente eso.</span>
+        <div class="problema__lines">
+          <p class="problema__line" data-line>
+            Muchas empresas invierten en diseño y marketing constantemente. Pero algo no termina de funcionar.
           </p>
+
+          <p class="problema__line problema__line--beats" data-line data-beats-line>
+            <span class="problema__beat problema__beat--purple">Falta dirección.</span>
+            <span class="problema__beat problema__beat--cyan">Falta coherencia.</span>
+            <span class="problema__beat problema__beat--pink">Falta orden.</span>
+          </p>
+
+          <p class="problema__line" data-line>
+            Campañas desconectadas. Material que se ve bien pero no vende. Múltiples proveedores sin una
+            estrategia que los una.
+          </p>
+
+          <p class="problema__line" data-line>
+            El problema casi nunca es la creatividad. Es la falta de estructura detrás.
+          </p>
+
+          <div class="problema__closing" data-closing>
+            <p class="problema__closing-card glass-panel">
+              <span class="problema__closing-text">Mucho POP existe para resolver exactamente eso.</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -1,15 +1,29 @@
 /*
-  El problema — columna editorial angosta y centrada, contraste deliberado
-  con el hero (ancho, asimétrico, 3D). Fondo con textura glass sutil +
-  una capa de glow a distinta velocidad = parallax multicapa (brief 4.1)
-  incluso en una sección mayormente tipográfica.
+  El problema — columna editorial centrada (label arriba, líneas debajo),
+  pero bien ancha en vez de angosta, para que el texto gane a lo
+  horizontal y la sección no se estire de más a lo vertical. Fondo con
+  textura glass sutil + una capa de glow a distinta velocidad = parallax
+  multicapa (brief 4.1) incluso en una sección mayormente tipográfica.
 */
 
 .problema {
   position: relative;
-  overflow: hidden;
   isolation: isolate;
   background: linear-gradient(180deg, var(--neutral-mist) 0%, var(--neutral-fog) 100%);
+}
+
+/*
+  Wrapper dedicado a overflow:hidden — un section con overflow:hidden se
+  convierte en el "scroll container" de referencia para cualquier
+  position:sticky que tenga adentro (spec de sticky), lo que rompe el
+  sticky de .problema__label. Aislar el clip acá evita ese efecto.
+*/
+.problema__atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .problema__glow {
@@ -18,7 +32,6 @@
   height: 24rem;
   border-radius: 50%;
   filter: blur(80px);
-  z-index: 0;
 }
 
 .problema__glow--a {
@@ -38,6 +51,18 @@
 .problema__content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.problema__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.problema__lines {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
@@ -103,6 +128,7 @@
 }
 
 .problema__closing-card {
+  width: 100%;
   padding: var(--space-lg) var(--space-xl);
   text-align: center;
   box-shadow: var(--shadow-lifted);
@@ -122,5 +148,13 @@
 @media (max-width: 640px) {
   .problema__closing-card {
     padding: var(--space-md) var(--space-lg);
+  }
+}
+
+@media (min-width: 861px) {
+  /* Centrada en la página, pero bien ancha (no los 46rem originales). */
+  .problema__content {
+    max-width: 64rem;
+    margin-inline: auto;
   }
 }

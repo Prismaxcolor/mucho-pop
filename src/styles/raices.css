@@ -1,8 +1,10 @@
 /*
   Nuestras raíces — la sección respira. A propósito, el reveal más simple
   de todo el sitio (fade + rise, sin escala/rotación) y el más lento.
-  Columna angosta y centrada, tono editorial, la taza como único elemento
-  visual (glass/chrome) con vapor dibujado vía live-draw SVG.
+  Columna centrada, la taza arriba del texto, pero bien ancha (no los
+  46rem originales) para que el párrafo gane a lo horizontal y la sección
+  no se estire de más a lo vertical. Tono editorial, la taza como único
+  elemento visual (glass/chrome) con vapor dibujado vía live-draw SVG.
 */
 
 .raices {
@@ -14,6 +16,8 @@
 .raices__content {
   position: relative;
   z-index: 1;
+  max-width: 56rem;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
   align-items: center;

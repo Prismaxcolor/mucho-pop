@@ -1,14 +1,16 @@
 /**
- * Servicios (brief 5.4) — scroll horizontal dentro de un contenedor
- * sticky vertical (GSAP ScrollTrigger pin clásico). A diferencia del hero,
- * acá el pin SÍ es la técnica correcta: la distancia pineada se calibra
- * exactamente al ancho real del track (no un porcentaje arbitrario), así
- * que nunca se siente más largo de lo que el contenido justifica. En
- * mobile no hay pin: el track es scroll horizontal nativo con snap.
+ * Servicios (brief 5.4) — sticky vertical (GSAP ScrollTrigger pin) donde
+ * las cards viven apiladas (position:absolute, unas sobre otras) y hacen
+ * crossfade: la activa se desvanece unos px hacia la izquierda mientras
+ * la siguiente entra desde la derecha. A diferencia de un slide de track
+ * completo (mover todo el ancho por card), acá el recorrido de scroll
+ * necesario es corto — la transición es rápida aunque el movimiento sea
+ * chico. En mobile no hay pin: el track es scroll horizontal nativo con
+ * snap.
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { prefersReducedMotion } from '../core/scroll.js';
+import { prefersReducedMotion, getLenis } from '../core/scroll.js';
 import { initTilt } from '../core/tilt.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,43 +28,60 @@ const SERVICES = [
     icon: 'layers',
     accent: '--mucho-violet',
     title: 'Design & Branding',
-    text: 'Construimos identidades sólidas, coherentes y funcionales. Branding, identidad visual, diseño corporativo, presentaciones y contenido gráfico.',
+    text: 'Construimos identidades sólidas, coherentes y funcionales.',
+    tags: ['Branding', 'Identidad visual', 'Diseño corporativo', 'Presentaciones', 'Contenido gráfico'],
   },
   {
     icon: 'megaphone',
     accent: '--mucho-pink-light',
     title: 'Digital Marketing Lab',
-    text: 'Estrategia digital orientada a resultados reales. Marketing 360, redes sociales, campañas publicitarias, embudos de conversión.',
+    text: 'Estrategia digital orientada a resultados reales.',
+    tags: ['Marketing 360', 'Redes sociales', 'Campañas publicitarias', 'Embudos de conversión'],
   },
   {
     icon: 'infinity',
     accent: '--mucho-cyan-light',
     title: 'IA & Automation Systems',
-    text: 'Automatización inteligente al servicio del negocio. CRM, flujos automatizados, bots, analítica e integraciones.',
+    text: 'Automatización inteligente al servicio del negocio.',
+    tags: ['CRM', 'Flujos automatizados', 'Bots', 'Analítica', 'Integraciones'],
   },
   {
     icon: 'camera',
     accent: '--mucho-sky',
     title: 'Creative Productions',
-    text: 'Contenido audiovisual con intención estratégica. Fotografía, video, reels y piezas visuales.',
+    text: 'Contenido audiovisual con intención estratégica.',
+    tags: ['Fotografía', 'Video', 'Reels', 'Piezas visuales'],
   },
   {
     icon: 'printer',
     accent: '--mucho-purple-deep',
     title: 'POP Lab',
-    text: 'Material POP y soluciones para punto de venta. Incluye: Sublimación, Impresión, Bordado, Corte, Vinil.',
+    text: 'Material POP y soluciones para punto de venta.',
+    tags: ['Sublimación', 'Impresión', 'Bordado', 'Corte', 'Vinil'],
   },
 ];
 
-function cardMarkup({ icon, accent, title, text }, i) {
+const TOTAL = SERVICES.length;
+
+function cardMarkup({ icon, accent, title, text, tags }, i) {
   return `
     <article class="servicios__card" data-card style="--accent: var(${accent})">
-      <span class="servicios__index">0${i + 1}</span>
-      <span class="servicios__icon">${ICONS[icon]}</span>
-      <h3 class="servicios__card-title">${title}</h3>
-      <p class="servicios__card-text">${text}</p>
+      <span class="servicios__card-glow" aria-hidden="true"></span>
+      <span class="servicios__index" aria-hidden="true">0${i + 1}</span>
+      <div class="servicios__card-body">
+        <span class="servicios__icon">${ICONS[icon]}</span>
+        <h3 class="servicios__card-title">${title}</h3>
+        <p class="servicios__card-text">${text}</p>
+        <ul class="servicios__tags">
+          ${tags.map((tag) => `<li>${tag}</li>`).join('')}
+        </ul>
+      </div>
     </article>
   `;
+}
+
+function dotMarkup({ title }, i) {
+  return `<button class="servicios__dot" type="button" data-dot aria-label="Ir a ${title}" aria-current="${i === 0 ? 'true' : 'false'}"></button>`;
 }
 
 export function renderServicios() {
@@ -79,10 +98,15 @@ export function renderServicios() {
         <div class="servicios__track" data-track>
           ${SERVICES.map(cardMarkup).join('')}
         </div>
-        <div class="servicios__progress" data-progress aria-hidden="true">
-          <span class="servicios__progress-fill" data-progress-fill></span>
+        <div class="servicios__pagination">
+          <p class="servicios__counter" data-counter aria-hidden="true">
+            <span data-counter-current>01</span><span class="servicios__counter-sep">/</span>0${TOTAL}
+          </p>
+          <div class="servicios__dots" data-dots aria-label="Servicios">
+            ${SERVICES.map(dotMarkup).join('')}
+          </div>
         </div>
-        <p class="servicios__hint" data-hint>Seguí bajando para ver los 5 servicios →</p>
+        <p class="servicios__hint" data-hint>Seguí bajando →</p>
       </div>
     </section>
   `;
@@ -96,9 +120,30 @@ export function initServicios() {
 
   const pinEl = section.querySelector('[data-pin]');
   const track = section.querySelector('[data-track]');
-  const fill = section.querySelector('[data-progress-fill]');
   const hint = section.querySelector('[data-hint]');
-  if (!pinEl || !track) return;
+  const dots = Array.from(section.querySelectorAll('[data-dot]'));
+  const counter = section.querySelector('[data-counter-current]');
+  const cards = Array.from(section.querySelectorAll('[data-card]'));
+  if (!pinEl || !track || cards.length === 0) return;
+
+  const setActive = (index) => {
+    dots.forEach((dot, i) => {
+      const isActive = i === index;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-current', String(isActive));
+    });
+    if (counter) counter.textContent = String(index + 1).padStart(2, '0');
+  };
+
+  const jumpTo = (index, distance, start) => {
+    const targetY = start + (index / (TOTAL - 1)) * distance;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(targetY, { duration: 1 });
+    } else {
+      window.scrollTo({ top: targetY, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    }
+  };
 
   const mm = gsap.matchMedia();
 
@@ -113,29 +158,93 @@ export function initServicios() {
       // sin pin — más simple y sin riesgo de "scroll pegado" en mobile.
       if (!isDesktop || reduceMotion) return () => {};
 
-      const getScrollDistance = () => Math.max(track.scrollWidth - pinEl.clientWidth, 0);
+      // Cards apiladas: arranca solo la primera visible, el resto
+      // "esperando" un poco corridas a la derecha.
+      gsap.set(cards, { opacity: 0, xPercent: 14 });
+      gsap.set(cards[0], { opacity: 1, xPercent: 0 });
 
-      const tween = gsap.to(track, {
-        x: () => -getScrollDistance(),
-        ease: 'none',
+      // Recorrido corto y fijo (no atado al ancho de la card): cada
+      // transición pide una fracción de la altura de pantalla, no una
+      // pantalla entera — así nunca "tarda" en llegar a la siguiente.
+      const segmentLength = () => Math.max(window.innerHeight * 0.55, 380);
+
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: pinEl,
           start: 'top top',
-          end: () => `+=${getScrollDistance()}`,
-          scrub: true,
+          end: () => `+=${(TOTAL - 1) * segmentLength()}`,
+          scrub: 0.3,
           pin: true,
           invalidateOnRefresh: true,
+          snap: {
+            snapTo: (value) => Math.round(value * (TOTAL - 1)) / (TOTAL - 1),
+            duration: 0.3,
+            ease: 'power2.inOut',
+          },
           onUpdate: (self) => {
-            if (fill) fill.style.transform = `scaleX(${self.progress})`;
-            if (hint) hint.style.opacity = self.progress > 0.08 ? '0' : '1';
+            setActive(Math.round(self.progress * (TOTAL - 1)));
+            if (hint) hint.style.opacity = self.progress > 0.04 ? '0' : '1';
           },
         },
       });
 
+      // Secuencial, no crossfade simultáneo: la card 1 termina de
+      // desvanecerse (opacity 0) ANTES de que la 2 empiece a entrar, para
+      // que nunca se vean las dos superpuestas ("traspapeladas") al mismo
+      // tiempo. Cada transición completa ocupa 1 unidad del timeline, en
+      // línea con los índices de snap (i / (TOTAL - 1)).
+      cards.forEach((card, i) => {
+        if (i === TOTAL - 1) return;
+        const next = cards[i + 1];
+        tl.to(card, { opacity: 0, xPercent: -14, duration: 0.45, ease: 'power1.in' }, i).to(
+          next,
+          { opacity: 1, xPercent: 0, duration: 0.45, ease: 'power1.out' },
+          i + 0.55
+        );
+      });
+
+      const onDotClick = (index) => {
+        const st = tl.scrollTrigger;
+        if (!st) return;
+        jumpTo(index, st.end - st.start, st.start);
+      };
+      const clickHandlers = dots.map((dot, i) => {
+        const handler = () => onDotClick(i);
+        dot.addEventListener('click', handler);
+        return handler;
+      });
+
       return () => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
+        dots.forEach((dot, i) => dot.removeEventListener('click', clickHandlers[i]));
+        tl.scrollTrigger?.kill();
+        tl.kill();
       };
     }
   );
+
+  // Mobile/reduced-motion: el track es un carrusel nativo — los dots
+  // reflejan qué card está centrada usando IntersectionObserver, sin
+  // depender de GSAP.
+  if (!('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (window.matchMedia('(min-width: 861px)').matches && !prefersReducedMotion()) return;
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      const index = cards.indexOf(visible.target);
+      if (index !== -1) setActive(index);
+    },
+    { root: track, threshold: [0.5, 0.75, 1] }
+  );
+  cards.forEach((card) => observer.observe(card));
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      if (window.matchMedia('(min-width: 861px)').matches && !prefersReducedMotion()) return;
+      cards[i]?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+    });
+  });
 }

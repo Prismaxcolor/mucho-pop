@@ -51,7 +51,7 @@ export function renderHero() {
         <span class="hero__glow hero__glow--pink" data-parallax="0.1"></span>
       </div>
 
-      <div class="hero__content container">
+      <div class="hero__content">
         <svg class="hero__intro-logo" viewBox="0 0 460 90" aria-label="Mucho POP" role="img">
           <defs>
             <linearGradient id="hero-logo-pop-fill" x1="0" y1="0" x2="1" y2="1">
@@ -234,7 +234,7 @@ function buildDesktopTimeline({ section, vessel, lid, glow, backSpheres, frontSp
       // nunca queda "atrapado" sin poder bajar. El timeline solo se ata al
       // progreso natural del scroll mientras el hero pasa por el viewport.
       start: 'top top',
-      end: '+=80%',
+      end: '+=50%',
       scrub: true,
     },
   });
@@ -280,7 +280,7 @@ function buildDesktopTimeline({ section, vessel, lid, glow, backSpheres, frontSp
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: '+=80%',
+        end: '+=50%',
         scrub: true,
       },
     });
